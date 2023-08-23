@@ -31,6 +31,7 @@ const Dashboard = () => {
       DataThematique.loadThematiqueName(Number(thematiqueId))
         .then(name => {
           if (name) {
+            console.log("Nom de la thématique :", name);
             setThematiqueName(name);
           }
         })
@@ -49,18 +50,20 @@ const Dashboard = () => {
   }, [thematiqueId]);
 
   return (
-    <div className="dashboard">
-      <h2>Tableau de bord {thematiqueName ? '=> ' + thematiqueName : ''}</h2>
-      <div className="column-list">
-      {columns.map(column => {
-        const cardsForColumn = cards.filter((card) => card.column === column.id);
-        
-        return (
-          <Column key={column.id} column={{ ...column, cards: cardsForColumn }}/>
-        );
-      })}
+    <section className="mx-3">
+      <div className="mt-5">
+        <h2 className="text-center my-3" >Thématique {thematiqueName ? '=> ' + thematiqueName : ''}</h2>
       </div>
-    </div>
+        <div className="row">
+        {columns.map(column => {
+          const cardsForColumn = cards.filter((card) => card.column === column.id);
+          
+          return (
+            <Column key={column.id} column={{ ...column, cards: cardsForColumn }}/>
+          );
+        })}
+        </div>
+    </section>
   );
 };
 

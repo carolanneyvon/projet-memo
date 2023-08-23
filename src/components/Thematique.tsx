@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import ThematiqueInterface from './../Interfaces/ThematiqueInterface';
 import DataThematique from './../services/DataThematique';
+import { Trash, Pencil } from 'react-bootstrap-icons';
 
 interface ThematiqueProps {
 }
@@ -25,14 +26,22 @@ const Thematique: React.FC<ThematiqueProps> = () => {
   }, []);
 
   return (
-    <div className="d-flex justify-content-center">
-      <ul>
-        {thematiques.map(thematique => (
-          <li key={thematique.id}>
-          <Link to={`/dashboard/${thematique.id}`}>{thematique.name}</Link>
-        </li>
-        ))}
-      </ul>
+    <div className="d-flex justify-content-center mt-3">
+      {thematiques.map(thematique => (
+    <div
+      key={thematique.id}
+      className="d-flex justify-content-center align-items-center bg-info rounded mx-2 p-2"
+    >
+      <Link 
+        to={`/dashboard/${thematique.id}`} 
+        className="btn btn-info"
+      >
+        {thematique.name}
+      </Link> |{" "}
+      <Trash className="m-2" role="button" />
+      <Pencil className="m-2" role="button" />
+    </div>
+  ))}
     </div>
   );
 }

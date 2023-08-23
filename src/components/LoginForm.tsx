@@ -30,29 +30,35 @@ function LoginForm() {
   };
 
   return (
-      <div>
-        <h2>Connexion</h2>
+    <div className="d-flex justify-content-center align-items-center mt-5">
+      <div className="w-50">
+        <h2 className="text-center mb-4">Connexion</h2>
         <form onSubmit={handleSubmit}>
-          <div>
-            <label>Nom d'utilisateur:</label>
+          <div className="form-group">
+            <label htmlFor="username">Nom d'utilisateur:</label>
             <input
+              id="username"
               type="text"
+              className="form-control"
               value={username}
               onChange={(e) => setUsername(e.target.value)}
             />
           </div>
-          <div>
-            <label>Mot de passe:</label>
+          <div className="form-group">
+            <label htmlFor="password">Mot de passe:</label>
             <input
+              id="password"
               type="password"
+              className="form-control"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
             />
           </div>
-          {error && <div className="error">{error}</div>}
-          <button type="submit">Se connecter</button>
+          {error && <div className="alert alert-danger mt-3">{error}</div>}
+          <button type="submit" className="btn btn-primary w-100 mt-3">Se connecter</button>
         </form>
       </div>
+    </div>
   );
 }
 

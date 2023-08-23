@@ -17,8 +17,8 @@ const Home = () => {
   }, []);
 
   return (
-    <div>
-    <h2>Page d'accueil</h2>
+    <div className="mt-5">
+    <h2 className="text-center">Liste des thématiques</h2>
     <Thematique  />
     </div>
     );

@@ -9,8 +9,11 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ column }) => {
   return (
-    <div className="column">
-      <h3>{column.label}</h3>
+    <section className="col">
+      <div className="d-flex mb-2 mt-2 align-items-start">
+        <button className="btn btn-success me-3">+</button>
+        <h3>{column.label}</h3>
+      </div>
       <div className="card-list">
         {/* Vérification que column.cards est bien une liste d'objets CardInterface */}
         {Array.isArray(column.cards) && column.cards.length > 0 ? (
@@ -21,9 +24,11 @@ const Column: React.FC<ColumnProps> = ({ column }) => {
           <p>Aucune carte disponible.</p>
         )}
       </div>
-    </div>
+
+    </section>
   );
 };
 
 export default Column;
 
+//onClick={column.onClickShowModal}

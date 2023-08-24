@@ -42,7 +42,6 @@ export default class DataCard {
       });
   }
 
-
   // Ajouter une carte
   static async addCard (cardData: any): Promise<CardInterface> {
     return fetch(this.url,

@@ -4,6 +4,6 @@ export default interface CardInterface {
   question: string;
   answer: string;
   column: number;
-  selected: boolean;
+  selected?: boolean;
   tid: number;
 }

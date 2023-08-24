@@ -1,17 +1,36 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import CardInterface from './../Interfaces/CardInterface';
 
 interface ModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSubmit: (cardData: { question: string, answer: string }) => void;
+  // Pour la mise à jour de la carte
+  onUpdateCard?: (cardId: number, updatedData: { question: string; answer: string; }) => void;
+  cardToUpdate?: CardInterface | null;
 }
 
-const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit }) => {
+const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, onUpdateCard }) => {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
 
-  const handleSubmit = () => {
-    onSubmit({ question, answer });
+  useEffect(() => {
+    if (cardToUpdate) {
+      setQuestion(cardToUpdate.question);
+      setAnswer(cardToUpdate.answer);
+    } else {
+      setQuestion('');
+      setAnswer('');
+    }
+  }, [cardToUpdate]); 
+  
+  const handleSubmit  = () => {
+    if (cardToUpdate && onUpdateCard) {
+      // Update logic here
+      onUpdateCard(cardToUpdate.id, { question, answer });
+    } else {
+      onSubmit({ question, answer });
+    }
     onClose();
   };
 

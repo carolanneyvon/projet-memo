@@ -26,7 +26,7 @@ const Dashboard = () => {
     }, []);
 
   useEffect(() => {
-      // Charge les cartes spécifiques à la thématique
+    // Charge les cartes spécifiques à la thématique
     if (thematiqueId) {
       DataThematique.loadThematiqueName(Number(thematiqueId))
         .then(name => {
@@ -49,6 +49,20 @@ const Dashboard = () => {
     }
   }, [thematiqueId]);
 
+  // Pour mettre a jour Dashboard =
+  // Ajout d'une carte
+  const handleAddCardToState = (newCard: CardInterface) => {
+    setCards(prevCards => [...prevCards, newCard]);
+  };
+  // Suppression d'une carte
+  const handleDeleteCardFromState = (cardId: number) => {
+    setCards(prevCards => prevCards.filter(card => card.id !== cardId));
+  };
+  // Modifier une carte
+  const handleUpdateCardInState = (updatedCard: CardInterface) => {
+    setCards(prevCards => prevCards.map(card => card.uid === updatedCard.uid ? updatedCard : card));
+  };
+
   return (
     <section className="mx-3">
       <div className="mt-5">
@@ -60,7 +74,14 @@ const Dashboard = () => {
           const numericThematiqueId = Number(thematiqueId);
 
           return (
-            <Column key={column.id} column={{ ...column, cards: cardsForColumn }} thematiqueId={numericThematiqueId}/>
+            <Column 
+              key={column.id} 
+              column={{ ...column, cards: cardsForColumn }} 
+              thematiqueId={numericThematiqueId}
+              onAddCard={handleAddCardToState}
+              onDeleteCard={handleDeleteCardFromState}
+              onUpdateCard={handleUpdateCardInState}
+            />
           );
         })}
         </div>

@@ -4,9 +4,11 @@ import { Trash, Pencil } from 'react-bootstrap-icons';
 
 interface CardProps {
   card: CardInterface;
+  onDelete: (cardId: number) => void;
+  onUpdate: (cardId: number, updatedData: { question: string; answer: string }) => void;
 }
 
-const Card: React.FC<CardProps> = ({ card }) => {
+const Card: React.FC<CardProps> = ({ card, onDelete, onUpdate }) => {
   return (
     <article className=" mb-4 rounded p-3  ">
       <div className="card d-flex gap-3 justify-content-center align-items-center">
@@ -16,16 +18,16 @@ const Card: React.FC<CardProps> = ({ card }) => {
           <p className="card-text">{card.answer}</p>
         </div>
         <div className=" gap-3 d-flex my-3 justify-content-around align-items-center">
-          <Trash role="button"
-          //onClick={() => { onClickDeleteCard(props.index_column, props.index_card) }}
+          <Trash role="button" onClick={() => onDelete(card.id)}
           />
           <button
-            // onClick={() => { onClickDeleteCard(props.index_column, props.index_card) }}
+            // onClick={() => { }}
             className="btn btn-warning">Proposer une réponse
           </button>
-          <Pencil role="button"
-            // onClick={() => { onClickUpdateCard(props.index_column, props.index_card) }}
-            className="" />
+          <Pencil role="button" 
+            onClick={() => onUpdate(card.id, { question: card.question, answer: card.answer })}
+            className="" 
+          />
         </div>
       </div>
     </article>

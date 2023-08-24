@@ -32,20 +32,4 @@ export const addCardAction = async({request, thematiqueId, columnId}: ExtendedAc
   return null;
 }
 
-// export const deleteCardAction = (id: number) => async (dispatch: any) => {
-//   try {
-//     await DataCard.deleteCard(id);
-//     dispatch({ type: 'DELETE_CARD', payload: id });
-//   } catch (error) {
-//     console.error('Failed to delete card:', error);
-//   }
-// };
 
-// export const updateCardAction = (id: number, updatedData: any) => async (dispatch: any) => {
-//   try {
-//     const updatedCard = await DataCard.updateCard(id, updatedData);
-//     dispatch({ type: 'UPDATE_CARD', payload: updatedCard });
-//   } catch (error) {
-//     console.error('Failed to update card:', error);
-//   }
-// };

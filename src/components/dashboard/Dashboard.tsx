@@ -57,9 +57,10 @@ const Dashboard = () => {
         <div className="row">
         {columns.map(column => {
           const cardsForColumn = cards.filter((card) => card.column === column.id);
-          
+          const numericThematiqueId = Number(thematiqueId);
+
           return (
-            <Column key={column.id} column={{ ...column, cards: cardsForColumn }}/>
+            <Column key={column.id} column={{ ...column, cards: cardsForColumn }} thematiqueId={numericThematiqueId}/>
           );
         })}
         </div>

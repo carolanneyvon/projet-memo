@@ -68,14 +68,6 @@
       "tid": 724
     },
     {
-      "question": "f",
-      "answer": "f",
-      "uid": "b117066b-db65-4cbf-a2fa-a4285ae7c13c",
-      "column": 2,
-      "tid": 724,
-      "id": 24
-    },
-    {
       "question": "g",
       "answer": "g",
       "uid": "3021da30-e18d-4d7d-8ea2-40296b41bf90",
@@ -84,12 +76,20 @@
       "id": 26
     },
     {
-      "question": "d",
-      "answer": "d",
-      "uid": "0d0f9867-8788-49e5-9688-a7474d5ef12f",
+      "question": "c",
+      "answer": "c",
+      "uid": "7036447b-4a52-478b-b408-2010a5d16fd0",
       "column": 3,
       "tid": 724,
-      "id": 27
+      "id": 28
+    },
+    {
+      "question": "ajout m4",
+      "answer": "ajout",
+      "uid": "a54d7f3a-98e5-44a9-b3ac-9b5681da1ccc",
+      "column": 3,
+      "tid": 724,
+      "id": 29
     }
   ]
 }

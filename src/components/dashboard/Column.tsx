@@ -5,6 +5,7 @@ import CardInterface from './../../Interfaces/CardInterface';
 import Modal from './../Modal';
 import DataCard from './../../services/DataCard';
 import { v4 as uuidv4 } from 'uuid';
+import { updateCardAction } from './../../actions/card';
 
 interface ColumnProps {
   column: ColumnInterface;
@@ -16,26 +17,15 @@ interface ColumnProps {
 
 const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDeleteCard, onUpdateCard }) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
-  const [currentCardToUpdate, setCurrentCardToUpdate] = useState<CardInterface | null>(null);
+  const [currentCard, setCurrentCard] = useState<CardInterface | null>(null);
 
 
-  const showModal = () => {
+  const showModal = (cardToUpdate?: CardInterface) => {
     setModalVisible(true);
+    setCurrentCard(cardToUpdate || null);
   };
 
-  const showUpdateModal = (cardId: number, updatedData: { question: string; answer: string }) => {
-    const card: CardInterface = {
-      ...updatedData,
-      uid: uuidv4(),
-      column: column.id,
-      tid: thematiqueId,
-      id: cardId,
-    };
-    setCurrentCardToUpdate(card);
-    setModalVisible(true);
-};
-
-
+  // Ajouter une carte
   const handleAddCard = (cardData: { question: string, answer: string }) => {
     console.log("Dans handleAddCard", cardData);
     const newCardData = {
@@ -56,6 +46,17 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
     });
   };
 
+  // Mettre à jour une carte
+  const handleUpdateCard = async (updatedCardData: Partial<CardInterface>) => {
+    if (typeof updatedCardData.id !== 'number') {
+      throw new Error('ID manquant pour la mise à jour de la carte');
+  }
+    await DataCard.updateCard(updatedCardData.id, updatedCardData);
+    onUpdateCard(updatedCardData as CardInterface);
+  };
+  
+
+  // Supprimer une carte
   const handleDeleteCard = (cardId: number) => {
     DataCard.deleteCard(cardId)
       .then(() => {
@@ -66,27 +67,21 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
       });
   };
 
-  const handleUpdateCard = (cardId: number, updatedData: { question: string, answer: string }) => {
-    DataCard.updateCard(cardId, updatedData)
-      .then(updatedCard => {
-        onUpdateCard(updatedCard);
-      })
-      .catch(error => {
-        console.error("Erreur lors de la mise à jour de la carte", error);
-      });
-  };
-
   return (
     <section className="col">
       <div className="d-flex mb-2 mt-2 align-items-start">
-        <button className="btn btn-success me-3" onClick={showModal}>+</button>
+        <button className="btn btn-success me-3" onClick={() => showModal()}>+</button>
         <h3>{column.label}</h3>
       </div>
       <Modal 
         isOpen={isModalVisible} 
-        onClose={() => setModalVisible(false)} 
+        onClose={() => { 
+          setModalVisible(false);
+          // CurrentCard sera à null lors de la fermeture de la modale
+          setCurrentCard(null);  
+        }} 
         onSubmit={handleAddCard} 
-        cardToUpdate={currentCardToUpdate}
+        cardToUpdate ={currentCard}
         onUpdateCard={handleUpdateCard}
       />
       <div className="card-list">
@@ -97,7 +92,7 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
               key={card.uid} 
               card={card}
               onDelete={handleDeleteCard}
-              onUpdate={showUpdateModal}
+              onUpdate={() => showModal(card)}
             />
           ))
         ) : (

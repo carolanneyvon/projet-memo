@@ -6,8 +6,10 @@ interface ModalProps {
   onClose: () => void;
   onSubmit: (cardData: { question: string, answer: string }) => void;
   // Pour la mise à jour de la carte
-  onUpdateCard?: (cardId: number, updatedData: { question: string; answer: string; }) => void;
   cardToUpdate?: CardInterface | null;
+  // Pour accepter une partie de CardInterface.
+  onUpdateCard?: (cardData:  Partial<CardInterface>) => void;
+
 }
 
 const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, onUpdateCard }) => {
@@ -22,40 +24,55 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, 
       setQuestion('');
       setAnswer('');
     }
-  }, [cardToUpdate]); 
-  
-  const handleSubmit  = () => {
+  }, [cardToUpdate]);
+
+  const handleFormSubmit = (event: any) => {
+    event.preventDefault();
+    console.log("Dans handleFormSubmit");
+
+    const cardData = { question, answer };
     if (cardToUpdate && onUpdateCard) {
-      // Update logic here
-      onUpdateCard(cardToUpdate.id, { question, answer });
+      // Mise à jour de la carte
+      onUpdateCard({ ...cardData, id: cardToUpdate.id, uid: cardToUpdate.uid, column: cardToUpdate.column, tid: cardToUpdate.tid });
     } else {
-      onSubmit({ question, answer });
+      // Ajout de la carte
+      onSubmit(cardData);
     }
     onClose();
-  };
-
+  }
+  
   if (!isOpen) return null;
 
   return (
-    <div className="">
-      <div className="">
-        <button onClick={onClose}>X</button>
-        <h3>Créer une carte</h3>
-        <div>
-          <label>Question :</label>
-          <input value={question} onChange={e => setQuestion(e.target.value)} />
+      <div className="modal fade show d-block" tabIndex={-1} role="dialog">
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                    <h2>{cardToUpdate ? "Mettre à jour la carte" : "Ajouter une carte"}</h2>
+                        <button type="button" className="btn-close" data-bs-dismiss="modal" aria-label="Close" onClick={onClose}></button>
+                    </div>
+                    <div className="modal-body">
+                        <form method="post" action={`/add-card`} onSubmit={handleFormSubmit}>
+                            <div className="form-group">
+                                <label htmlFor="card_question">Question</label>
+                                <input type="text" className="form-control" id="card_question" name="card_question" value={question} onChange={e => setQuestion(e.target.value)} />
+                            </div>
+                            <div className="form-group">
+                                <label htmlFor="card_answer">Réponse</label>
+                                <input type="text" className="form-control" id="card_answer" name="card_answer" value={answer} onChange={e => setAnswer(e.target.value)}/>
+                            </div>
+                            <div>
+                            </div>
+                            <div className="modal-footer">
+                                <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
+                                <button type="submit" className="btn btn-primary">{cardToUpdate ? "Sauvegarder" : "Ajouter"}</button>
+
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div>
-          <label>Réponse :</label>
-          <input value={answer} onChange={e => setAnswer(e.target.value)} />
-        </div>
-        <button onClick={handleSubmit}>Valider</button>
-        <button onClick={onClose}>Annuler</button>
-      </div>
-    </div>
-
-
-
   );
 };
 

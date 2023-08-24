@@ -15,7 +15,7 @@ import Home from './components/Home';
 import LoginForm from './components/LoginForm';
 import Thematique from './components/Thematique';
 import Dashboard from './components/dashboard/Dashboard';
-import DataThematique from './services/DataThematique';
+import { updateCardAction } from './actions/card';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -32,6 +32,7 @@ const router = createBrowserRouter(
         <Route path="/thematique" element={<Thematique />} /> 
         <Route path="/dashboard/:thematiqueId" element={<Dashboard />} /> 
       </Route>
+      <Route path="/update-card/:cardId" action={updateCardAction} />
     </>
   )
 )

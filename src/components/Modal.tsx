@@ -26,6 +26,12 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, 
     }
   }, [cardToUpdate]);
 
+  const resetForm = () => {
+    setQuestion('');
+    setAnswer('');
+};
+
+
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
     console.log("Dans handleFormSubmit");
@@ -39,6 +45,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, 
       onSubmit(cardData);
     }
     onClose();
+    resetForm();
   }
   
   if (!isOpen) return null;
@@ -64,7 +71,7 @@ const Modal: React.FC<ModalProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, 
                             <div>
                             </div>
                             <div className="modal-footer">
-                                <button type="button" className="btn btn-secondary" onClick={onClose}>Annuler</button>
+                                <button type="button" className="btn btn-secondary" onClick={() => { onClose(); resetForm(); }}>Annuler</button>
                                 <button type="submit" className="btn btn-primary">{cardToUpdate ? "Sauvegarder" : "Ajouter"}</button>
 
                             </div>

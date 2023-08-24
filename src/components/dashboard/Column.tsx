@@ -5,7 +5,6 @@ import CardInterface from './../../Interfaces/CardInterface';
 import Modal from './../Modal';
 import DataCard from './../../services/DataCard';
 import { v4 as uuidv4 } from 'uuid';
-import { updateCardAction } from './../../actions/card';
 
 interface ColumnProps {
   column: ColumnInterface;
@@ -18,7 +17,6 @@ interface ColumnProps {
 const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDeleteCard, onUpdateCard }) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [currentCard, setCurrentCard] = useState<CardInterface | null>(null);
-
 
   const showModal = (cardToUpdate?: CardInterface) => {
     setModalVisible(true);
@@ -48,6 +46,7 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
 
   // Mettre à jour une carte
   const handleUpdateCard = async (updatedCardData: Partial<CardInterface>) => {
+    console.log("Dans handleUpdateCard");
     if (typeof updatedCardData.id !== 'number') {
       throw new Error('ID manquant pour la mise à jour de la carte');
   }
@@ -55,16 +54,19 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
     onUpdateCard(updatedCardData as CardInterface);
   };
   
-
   // Supprimer une carte
   const handleDeleteCard = (cardId: number) => {
-    DataCard.deleteCard(cardId)
-      .then(() => {
-        onDeleteCard(cardId);
-      })
-      .catch(error => {
-        console.error("Erreur lors de la suppression de la carte", error);
-      });
+    console.log("Dans handleDeleteCard");
+    // Sinon faire une nouvelle Modal pour confirmer la suppression
+    if (window.confirm("Êtes-vous sûr de vouloir supprimer cette carte?")) {
+      DataCard.deleteCard(cardId)
+        .then(() => {
+          onDeleteCard(cardId);
+        })
+        .catch(error => {
+          console.error("Erreur lors de la suppression de la carte", error);
+        });
+      }
   };
 
   return (

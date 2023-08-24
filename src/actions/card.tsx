@@ -21,6 +21,7 @@ export const updateCardAction = async({ request, params  }: ActionFunctionArgs) 
   return null;
 }
 
+// Supprimer une carte
 export const deleteCardAction = async ({ request }: ActionFunctionArgs) => {
   console.log(`Dans deleteCardAction`);
   // chargement des données qui sont issues du formulaire

@@ -18,11 +18,12 @@ function LoginForm() {
       
       if (user) {
         console.log("Utilisateur connecté :", user);
-        // Utilisateur trouvé, rediriger vers la page home
+        // Utilisateur trouvé, rediriger vers la page Accueil
         navigate('/');
       } else {
         console.log("Identifiants incorrects");
         setError("Nom d'utilisateur ou mot de passe incorrect.");
+        
       }
     } catch (error) {
       console.error("Erreur lors de la connexion :", error);

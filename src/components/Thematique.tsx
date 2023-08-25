@@ -4,12 +4,26 @@ import { Link } from 'react-router-dom';
 import ThematiqueInterface from './../Interfaces/ThematiqueInterface';
 import DataThematique from './../services/DataThematique';
 import { Trash, Pencil } from 'react-bootstrap-icons';
+import ModalThematique from './modals/ModalThematique';
 
 interface ThematiqueProps {
 }
 
 const Thematique: React.FC<ThematiqueProps> = () => {
   const [thematiques, setThematiques] = useState<ThematiqueInterface[]>([]);
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [selectedThematique, setSelectedThematique] = useState<ThematiqueInterface | null>(null);
+
+  
+  const showModal = (thematiqueToUpdate?: ThematiqueInterface) => {
+    setModalOpen(true);
+    setSelectedThematique(thematiqueToUpdate || null);
+  };
+
+  const onClose = () => {
+    setModalOpen(false);
+    setSelectedThematique(null);
+  }
 
   useEffect(() => {
     // Récupération des données
@@ -27,6 +41,12 @@ const Thematique: React.FC<ThematiqueProps> = () => {
 
   return (
     <div className="d-flex justify-content-center mt-3">
+      <button className="btn btn-success me-3" onClick={() => showModal()}>+</button>
+      <ModalThematique 
+                isOpen={isModalOpen} 
+                thematiqueToUpdate={selectedThematique} 
+                onClose={onClose} 
+            />
       {thematiques.map(thematique => (
     <div
       key={thematique.id}

@@ -3,39 +3,28 @@ import {ActionFunctionArgs} from 'react-router-dom';
 import CardInterface from './../Interfaces/CardInterface';
 //import { v4 as uuidv4 } from 'uuid';
 
-// Mettre à jour une carte
-export const updateCardAction = async({ request, params  }: ActionFunctionArgs) => {
-  console.log(`Dans updateCardAction`);
-  // Données provenant du formulaire
-  const formData = await request.formData();
-  const cardId = Number(params.cardId);
-  const card_question = formData.get("card_question") as string;
-  const card_answer = formData.get("card_answer") as string;
-  
-  const updatedCard: Partial<CardInterface> = {
-    question: card_question,
-    answer: card_answer,
-  };
-
-  await DataCard.updateCard(cardId, updatedCard);
-  return null;
-}
-
-// Supprimer une carte
-export const deleteCardAction = async ({ request }: ActionFunctionArgs) => {
-  console.log(`Dans deleteCardAction`);
-  // chargement des données qui sont issues du formulaire
-  const formData = await request.formData();
-  const idCard = formData.get("card_id") as string;
-
-  await DataCard.deleteCard(parseInt(idCard));
-  window.location.reload();
-  return null;
-};
-
-
 /**---------------------------------------------------------------------------- */
 // NON UTILISE DANS LE PROJET, AJOUT DIRECTEMENT GERE PAR LES COMPONENTS 
+// handleAddCard et handleUpdateCard
+
+// Mettre à jour une carte
+// export const updateCardAction = async({ request, params  }: ActionFunctionArgs) => {
+//   console.log(`Dans updateCardAction`);
+//   // Données provenant du formulaire
+//   const formData = await request.formData();
+//   const cardId = Number(params.cardId);
+//   const card_question = formData.get("card_question") as string;
+//   const card_answer = formData.get("card_answer") as string;
+  
+//   const updatedCard: Partial<CardInterface> = {
+//     question: card_question,
+//     answer: card_answer,
+//   };
+
+//   await DataCard.updateCard(cardId, updatedCard);
+//   return null;
+// }
+
 
 // interface ExtendedActionFunctionArgs extends ActionFunctionArgs {
 //   thematiqueId: number;

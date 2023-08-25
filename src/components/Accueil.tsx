@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import ThematiqueInterface from './../Interfaces/ThematiqueInterface';
+import ThematiqueInterface from '../Interfaces/ThematiqueInterface';
 import Thematique from './Thematique';
-import DataThematique from './../services/DataThematique';
+import DataThematique from '../services/DataThematique';
 
-const Home = () => {
+const Accueil = () => {
   const [thematiques, setThematiques] = useState<ThematiqueInterface[]>([]);
 
   useEffect(() => {
@@ -24,4 +24,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Accueil;

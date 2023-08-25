@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Card from './Card';
 import ColumnInterface from './../../Interfaces/ColumnInterface';
 import CardInterface from './../../Interfaces/CardInterface';
-import Modal from './../Modal';
+import ModalCard from '../modals/ModalCard';
 import DataCard from './../../services/DataCard';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -27,9 +27,11 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
   const handleAddCard = (cardData: { question: string, answer: string }) => {
     console.log("Dans handleAddCard", cardData);
     const newCardData = {
-      ...cardData,
+      id:0,
       uid: uuidv4(),
+      ...cardData,
       column: column.id,
+      selected: false,
       tid: thematiqueId
     };
     console.log("Nouvelles carte :", newCardData);
@@ -75,7 +77,7 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
         <button className="btn btn-success me-3" onClick={() => showModal()}>+</button>
         <h3>{column.label}</h3>
       </div>
-      <Modal 
+      <ModalCard 
         isOpen={isModalVisible} 
         onClose={() => { 
           setModalVisible(false);

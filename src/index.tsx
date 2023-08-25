@@ -11,11 +11,12 @@ import {
   Route,
   RouterProvider
 } from 'react-router-dom';
-import Home from './components/Home';
+import Accueil from './components/Accueil';
 import LoginForm from './components/LoginForm';
 import Thematique from './components/Thematique';
 import Dashboard from './components/dashboard/Dashboard';
-import { updateCardAction } from './actions/card';
+//import { updateCardAction } from './actions/card';
+import { addThematiqueAction } from './actions/thematique';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -27,12 +28,13 @@ const router = createBrowserRouter(
   createRoutesFromElements(
     <>
       <Route path="/" element={<App />}>
-        <Route path="" element={<Home />} />
+        <Route path="" element={<Accueil />} />
         <Route path="/login" element={<LoginForm />} />
         <Route path="/thematique" element={<Thematique />} /> 
         <Route path="/dashboard/:thematiqueId" element={<Dashboard />} /> 
       </Route>
-      <Route path="/update-card/:cardId" action={updateCardAction} />
+      {/* <Route path="/update-card/:cardId" action={updateCardAction} /> */}
+      <Route path="/add-term/" action={addThematiqueAction} />
     </>
   )
 )

@@ -1,5 +1,5 @@
 export default interface ThematiqueInterface {
-  id: string;
+  id: number;
   uid: string;
   name: string;
   open?: boolean;

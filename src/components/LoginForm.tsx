@@ -13,7 +13,8 @@ function LoginForm() {
     event.preventDefault();
 
     try {
-      const user = await DataUser.loginUser(username, password);
+      const dataUserService = DataUser.getInstance();
+      const user = await dataUserService.loginUser(username, password);
       
       if (user) {
         console.log("Utilisateur connecté :", user);

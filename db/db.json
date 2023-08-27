@@ -75,18 +75,10 @@
       "tid": 724
     },
     {
-      "question": "ajout m7",
-      "answer": "ajout",
-      "uid": "a54d7f3a-98e5-44a9-b3ac-9b5681da1ccc",
-      "column": 3,
-      "tid": 724,
-      "id": 29
-    },
-    {
       "question": "ajout m8",
       "answer": "ajout",
       "uid": "1525a995-0662-4028-98ba-7bc12559f061",
-      "column": 3,
+      "column": 4,
       "tid": 724,
       "id": 30
     },

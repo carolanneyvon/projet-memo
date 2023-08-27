@@ -10,7 +10,7 @@ import DataThematique from '../../services/DataThematique';
 
 const Dashboard = () => {
   // Récupère l'ID de la thématique depuis les paramètres d'URL
-  const { thematiqueId } = useParams<{ thematiqueId: string }>(); 
+  const { thematiqueId } = useParams<{ thematiqueId: string }>();
   const [columns, setColumns] = useState<ColumnInterface[]>([]);
   const [cards, setCards] = useState<CardInterface[]>([]);
   const [thematiqueName, setThematiqueName] = useState<string>('');
@@ -23,7 +23,7 @@ const Dashboard = () => {
       .catch(error => {
         console.error('Erreur lors du chargement des colonnes :', error);
       });
-    }, []);
+  }, []);
 
   useEffect(() => {
     // Charge les cartes spécifiques à la thématique
@@ -40,12 +40,12 @@ const Dashboard = () => {
         });
 
       DataCard.loadCardsByThematiqueId(Number(thematiqueId))
-      .then(loadedCards => {
-        setCards(loadedCards);
-      })
-      .catch(error => {
-        console.error('Erreur lors du chargement des cartes :', error);
-      });
+        .then(loadedCards => {
+          setCards(loadedCards);
+        })
+        .catch(error => {
+          console.error('Erreur lors du chargement des cartes :', error);
+        });
     }
   }, [thematiqueId]);
 
@@ -63,28 +63,55 @@ const Dashboard = () => {
     setCards(prevCards => prevCards.map(card => card.uid === updatedCard.uid ? updatedCard : card));
   };
 
+  // Deplacer une carte
+  const handleMoveCard = (movedCard: CardInterface, direction: string) => {
+    const updatedCard = { ...movedCard };
+
+    if (direction === 'left') {
+      updatedCard.column -= 1;
+    } else if (direction === 'right') {
+      updatedCard.column += 1;
+    }
+
+    // Mise à jour de l'état
+    setCards(prevCards => prevCards.map(card => card.uid === updatedCard.uid ? updatedCard : card));
+
+    // Mise à jour dans la base de données
+    DataCard.updateCard(updatedCard.id, { column: updatedCard.column })
+      .then(() => {
+        console.log("Changement de colonne réussie");
+      })
+      .catch(error => {
+        console.error("Erreur lors du changement de colonne de la carte", error);
+      });
+  };
+
+
   return (
     <section className="mx-3">
       <div className="mt-5">
         <h2 className="text-center my-3" >Thématique {thematiqueName ? '=> ' + thematiqueName : ''}</h2>
       </div>
-        <div className="row">
-        {columns.map(column => {
+      <div className="row">
+        {columns.map((column, columnIndex) => {
           const cardsForColumn = cards.filter((card) => card.column === column.id);
           const numericThematiqueId = Number(thematiqueId);
 
           return (
-            <Column 
-              key={column.id} 
-              column={{ ...column, cards: cardsForColumn }} 
+            <Column
+              key={column.id}
+              column={{ ...column, cards: cardsForColumn }}
               thematiqueId={numericThematiqueId}
               onAddCard={handleAddCardToState}
               onDeleteCard={handleDeleteCardFromState}
               onUpdateCard={handleUpdateCardInState}
+              columnIndex={columnIndex}
+              dernierIndex={columns.length - 1}
+              onMove={handleMoveCard}
             />
           );
         })}
-        </div>
+      </div>
     </section>
   );
 };

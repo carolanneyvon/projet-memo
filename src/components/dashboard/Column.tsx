@@ -12,9 +12,12 @@ interface ColumnProps {
   onAddCard: (card: CardInterface) => void;
   onDeleteCard: (cardId: number) => void;
   onUpdateCard: (updatedCard: CardInterface) => void;
+  onMove: (card: CardInterface, direction: 'left' | 'right') => void;
+  dernierIndex: number;
+  columnIndex: number;
 }
 
-const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDeleteCard, onUpdateCard }) => {
+const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDeleteCard, onUpdateCard, onMove, dernierIndex}) => {
   const [isModalVisible, setModalVisible] = useState<boolean>(false);
   const [currentCard, setCurrentCard] = useState<CardInterface | null>(null);
 
@@ -71,6 +74,12 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
       }
   };
 
+  // Deplacer une carte
+  const onMoveCard = (movedCard: CardInterface, direction: 'left' | 'right') => {
+    onMove(movedCard, direction);
+  };
+
+  
   return (
     <section className="col">
       <div className="d-flex mb-2 mt-2 align-items-start">
@@ -97,6 +106,9 @@ const Column: React.FC<ColumnProps> = ({ column, thematiqueId, onAddCard, onDele
               card={card}
               onDelete={handleDeleteCard}
               onUpdate={() => showModal(card)}
+              columnIndex={column.id}
+              dernierIndex={dernierIndex}
+              onMove={onMoveCard}
             />
           ))
         ) : (

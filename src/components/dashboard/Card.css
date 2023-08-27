@@ -1,0 +1,16 @@
+.arrowButton {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  color: #333;  
+  font-size: 1.5em;
+  transition: color 0.2s;
+}
+
+.arrowButton:hover {
+  color: red; 
+}
+
+.hidden {
+  visibility: hidden;
+}

@@ -75,7 +75,7 @@
       "tid": 724
     },
     {
-      "question": "ajout m8",
+      "question": "ajout",
       "answer": "ajout",
       "uid": "1525a995-0662-4028-98ba-7bc12559f061",
       "column": 4,
@@ -85,9 +85,9 @@
     {
       "id": 31,
       "uid": "a377944d-8fff-4c77-abc4-d34b91e78d5b",
-      "question": "tt",
-      "answer": "tt",
-      "column": 2,
+      "question": "test",
+      "answer": "test",
+      "column": 3,
       "selected": false,
       "tid": 724
     },

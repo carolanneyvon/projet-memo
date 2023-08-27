@@ -28,7 +28,7 @@ const Dashboard = () => {
   useEffect(() => {
     // Charge les cartes spécifiques à la thématique
     if (thematiqueId) {
-      DataThematique.loadThematiqueName(Number(thematiqueId))
+      DataThematique.getInstance().loadThematiqueName(Number(thematiqueId))
         .then(name => {
           if (name) {
             console.log("Nom de la thématique :", name);

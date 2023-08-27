@@ -1,5 +1,4 @@
-import React, { useState } from 'react';
-import { addThematiqueAction, updateThematiqueAction } from '../../actions/thematique';
+import React, { useState, useEffect } from 'react';
 import ThematiqueInterface from './../../Interfaces/ThematiqueInterface';
 import { useFetcher } from 'react-router-dom';
 
@@ -16,6 +15,44 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
   const resetForm = () => {
     setName('');
   };
+
+  // Pour récupérer les valeurs lors de la modification
+  useEffect(() => {
+    if (thematiqueToUpdate) {
+      setName(thematiqueToUpdate.name);
+    }
+  }, [thematiqueToUpdate]);
+  
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
+    e.preventDefault();
+
+    try {
+      //fetcher.submit(e.target as HTMLFormElement);
+
+      if(thematiqueToUpdate) {
+        // Mise à jour de la thématique
+        fetcher.submit(new FormData(e.target as HTMLFormElement), {
+          method: "post",
+          action: `/update-thematique/${thematiqueToUpdate.id}`
+      });
+      } else {
+        // Ajout de la thématique
+        fetcher.submit(new FormData(e.target as HTMLFormElement), {
+          method: "post",
+          action: "/add-thematique"
+      });
+      }
+      onClose();
+      resetForm();
+      //Rechargez la page après la soumission
+      //NON OPTIMISER mais je n'ai pas réussie à mettre à jour l'état
+      window.location.reload(); 
+
+  } catch (error) {
+      console.error("Erreur lors de l'ajout de la thématique':", error);
+  }
+};
+
   if (!isOpen) return null;
 
   return (
@@ -26,7 +63,7 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
             <h2 className="modal-title">{thematiqueToUpdate ? 'Modifier la Thématique' : 'Ajouter une Thématique'}</h2>
             <button type="button" className="btn-close" aria-label="Close" onClick={onClose}></button>
           </div>
-          <fetcher.Form action="/add-term" method="POST">
+          <fetcher.Form action="/add-thematique" method="POST" onSubmit={ (e) => handleSubmit(e) }>
             <div className="modal-body">
               <div className="mb-3">
                 <label htmlFor="thematique_name">Nom de la thématique</label>
@@ -35,11 +72,13 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
                   className="form-control"
                   id="thematique_name"
                   name="thematique_name"
+                  value={name}
+                  onChange={e => setName(e.target.value)}
                 />
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => { onClose(); resetForm() }}>Annuler</button>
-                <button type="submit" className="btn btn-primary">Ajouter</button>
+                <button type="submit" className="btn btn-primary">{thematiqueToUpdate ? "Sauvegarder" : "Ajouter"}</button>
               </div>
             </div>
           </fetcher.Form>
@@ -50,6 +89,3 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
 }
 
 export default ModalThematique;
-
-
-//<button type="submit" className="btn btn-primary">{thematiqueToUpdate ? "Sauvegarder" : "Ajouter"}</button>

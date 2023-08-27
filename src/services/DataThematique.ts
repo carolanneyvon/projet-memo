@@ -1,14 +1,29 @@
 import ThematiqueInterface from './../Interfaces/ThematiqueInterface';
 
 export default class DataThematique {
-  static url: string = "http://localhost:3001/terms";
+  private static instance: DataThematique;
+  private url: string = "http://localhost:3001/terms";
+
+  private constructor() { }
+
+  /**
+* Contrôle l'accès au constructeur pour n'utiliser qu'une seule instance
+* C'est le coeur du design patter singleton
+* @returns Data
+*/
+  public static getInstance(): DataThematique {
+    if (!DataThematique.instance) {
+      DataThematique.instance = new DataThematique();
+    }
+    return DataThematique.instance;
+  }
 
   /**
    * Récupère les terms via l'appel de l'api de json-server en utilisant
    * le verbe "GET"
    * @returns Promise<ThematiqueInterface[]>
    */
-  static async loadThematiques(): Promise<ThematiqueInterface[]> {
+  async loadThematiques(): Promise<ThematiqueInterface[]> {
     return fetch(this.url)
       .then(response => {
         console.log(`Response status : `, response.status);
@@ -20,7 +35,7 @@ export default class DataThematique {
   }
 
   // Récupère le nom de la thématique 
-  static async loadThematiqueName(id: number): Promise<string | null> {
+  async loadThematiqueName(id: number): Promise<string | null> {
     //return fetch(`${this.url}/${id}`)
     return fetch(this.url + "/" + id)
       .then(response => {
@@ -34,7 +49,7 @@ export default class DataThematique {
   }
 
   // Ajouter une thématique
-  static async addThematique(thematique: Partial<ThematiqueInterface>): Promise<ThematiqueInterface> {
+  async addThematique(thematique: Partial<ThematiqueInterface>): Promise<ThematiqueInterface> {
     return fetch(this.url, 
       {
       headers: {
@@ -53,7 +68,7 @@ export default class DataThematique {
   }
 
   // Mettre à jour une thématique
-  static async updateThematique(thematique: Partial<ThematiqueInterface>): Promise<ThematiqueInterface> {
+  async updateThematique(thematique: Partial<ThematiqueInterface>): Promise<ThematiqueInterface> {
     return fetch(`${this.url}/${thematique.id}`, 
       {
       headers: {
@@ -73,7 +88,7 @@ export default class DataThematique {
   }
 
   // Supprimer une thématique
-  static async deleteThematique(id: number): Promise<void> {
+  async deleteThematique(id: number): Promise<void> {
     return fetch(`${this.url}/${id}`, 
     {
       headers: {

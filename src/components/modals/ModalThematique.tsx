@@ -11,6 +11,7 @@ interface ModalThematiqueProps {
 const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToUpdate, onClose }) => {
   const [name, setName] = useState<string>('');
   const fetcher = useFetcher();
+  const [error, setError] = useState<string | null>(null);
 
   const resetForm = () => {
     setName('');
@@ -25,6 +26,14 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
   
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>): Promise<void> => {
     e.preventDefault();
+
+    // Validation du nom, champ non vide
+    if (name.trim() === '') {
+      setError("Le nom de la thématique est requis !");
+      return;
+  } else {
+      setError(null);
+  }
 
     try {
       //fetcher.submit(e.target as HTMLFormElement);
@@ -75,6 +84,7 @@ const ModalThematique: React.FC<ModalThematiqueProps> = ({ isOpen, thematiqueToU
                   value={name}
                   onChange={e => setName(e.target.value)}
                 />
+                {error && <small className="text-danger">{error}</small>}
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-secondary" onClick={() => { onClose(); resetForm() }}>Annuler</button>

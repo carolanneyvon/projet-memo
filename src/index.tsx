@@ -32,8 +32,8 @@ const router = createBrowserRouter(
         <Route path="" element={<Accueil />} />
         <Route path="/about" element={<About />} />
         <Route path="/login" element={<LoginForm />} />
-        <Route path="/thematique" element={<Thematique />} /> 
-        <Route path="/dashboard/:thematiqueId" element={<Dashboard />} /> 
+        <Route path="/thematique" element={<Thematique />} />
+        <Route path="/dashboard/:thematiqueId" element={<Dashboard />} />
       </Route>
       {/* <Route path="/update-card/:cardId" action={updateCardAction} /> */}
       <Route path="/add-thematique/" action={addThematiqueAction} />

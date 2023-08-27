@@ -32,6 +32,12 @@ const Thematique: React.FC<ThematiqueProps> = () => {
   }
 
   const handleDelete = async (thematiqueId: number) => {
+    const isConfirmed = window.confirm("Êtes-vous sûr de vouloir supprimer cette thématique?");
+
+    if (!isConfirmed) {
+      return;
+    }
+
     try {
       await fetcher.submit(
         {},

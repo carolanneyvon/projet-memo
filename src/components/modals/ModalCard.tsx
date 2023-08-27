@@ -15,6 +15,8 @@ interface ModalCardProps {
 const ModalCard: React.FC<ModalCardProps> = ({ isOpen, onClose, onSubmit, cardToUpdate, onUpdateCard }) => {
   const [question, setQuestion] = useState<string>('');
   const [answer, setAnswer] = useState<string>('');
+  const [error, setError] = useState<string | null>(null);
+
 
   useEffect(() => {
     if (cardToUpdate) {
@@ -35,6 +37,14 @@ const ModalCard: React.FC<ModalCardProps> = ({ isOpen, onClose, onSubmit, cardTo
   const handleFormSubmit = (event: any) => {
     event.preventDefault();
     console.log("Dans handleFormSubmit");
+
+    // Validation pour la question et la réponse, champ non vide
+    if (question.trim() === '' || answer.trim() === '') {
+      setError("La question et la réponse sont requises !");
+      return;
+  } else {
+      setError(null);
+  }
 
     const cardData = { question, answer };
     if (cardToUpdate && onUpdateCard) {
@@ -67,6 +77,7 @@ const ModalCard: React.FC<ModalCardProps> = ({ isOpen, onClose, onSubmit, cardTo
               <div className="form-group">
                 <label htmlFor="card_answer">Réponse</label>
                 <input type="text" className="form-control" id="card_answer" name="card_answer" value={answer} onChange={e => setAnswer(e.target.value)} />
+                {error && <small className="text-danger">{error}</small>}
               </div>
               <div>
               </div>

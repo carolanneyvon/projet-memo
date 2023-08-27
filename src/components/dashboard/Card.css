@@ -14,3 +14,7 @@
 .hidden {
   visibility: hidden;
 }
+
+.icon-hover:hover {
+  color: #007bff; /* Couleur de survol bleue de Bootstrap */
+}

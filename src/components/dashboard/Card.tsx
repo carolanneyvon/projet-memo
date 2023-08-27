@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import CardInterface from './../../Interfaces/CardInterface';
 import { Trash, Pencil, ChevronLeft, ChevronRight } from 'react-bootstrap-icons';
 
@@ -12,10 +12,16 @@ interface CardProps {
 }
 
 const Card: React.FC<CardProps> = ({ card, onDelete, onUpdate, columnIndex, dernierIndex, onMove }) => {
+  // État pour gérer la visibilité de la réponse
+  const [isAnswerVisible, setIsAnswerVisible] = useState(false);
+  const toggleAnswer = () => {
+    setIsAnswerVisible(prevVisibility => !prevVisibility);
+  };
+
   return (
     <article className=" mb-4 rounded p-3  ">
       <div className="card d-flex gap-3">
-        <div className="d-flex justify-content-between">
+        <div className="d-flex mt-3 align-items-center justify-content-between">
           <button
             className={`arrowButton ${columnIndex === 1 ? 'hidden' : ''}`}
             onClick={() => onMove(card, 'left')}
@@ -23,6 +29,7 @@ const Card: React.FC<CardProps> = ({ card, onDelete, onUpdate, columnIndex, dern
           >
             <ChevronLeft />
           </button>
+          <h5 className="card-title">{card.question}</h5>
           <button
             className={`arrowButton ${columnIndex === dernierIndex + 1 ? 'hidden' : ''}`}
             onClick={() => onMove(card, 'right')}
@@ -31,21 +38,26 @@ const Card: React.FC<CardProps> = ({ card, onDelete, onUpdate, columnIndex, dern
             <ChevronRight />
           </button>
         </div>
-        <div className="card-body text-center">
-          <h5 className="card-title">{card.question}</h5>
-          <p className="card-text">{card.answer}</p>
+        <div className="text-center">
+          {/* Afficher le texte de la réponse seulement si isAnswerVisible est vrai */}
+          {isAnswerVisible && <p className="card-text">{card.answer}</p>}
         </div>
 
         <div className=" gap-3 d-flex my-3 justify-content-around align-items-center">
-          <Trash role="button" onClick={() => onDelete(card.id)}
+          <Trash
+            className="icon-hover"
+            role="button"
+            onClick={() => onDelete(card.id)}
           />
           <button
-            // onClick={() => { }}
-            className="btn btn-warning">Proposer une réponse
+            onClick={toggleAnswer}
+            className={`btn ${isAnswerVisible ? 'btn-secondary' : 'btn-warning'}`}>
+            {isAnswerVisible ? 'Cacher la réponse' : 'Montrer la réponse'}
           </button>
-          <Pencil role="button"
+          <Pencil
+            className="icon-hover"
+            role="button"
             onClick={() => onUpdate(card)}
-            className=""
           />
         </div>
       </div>
@@ -54,4 +66,3 @@ const Card: React.FC<CardProps> = ({ card, onDelete, onUpdate, columnIndex, dern
 };
 
 export default Card;
-

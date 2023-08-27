@@ -2,6 +2,16 @@
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
+## Information sur le projet
+Au démarrage du projet faire :
+### `npm start`
+### `npm run server`
+
+Axes d'améliorations :
+- Mettre en place l'accès aux pages après authentification
+- Déplacer les cartes en faisant un glissé / déposé
+
+
 ## Available Scripts
 
 In the project directory, you can run:
